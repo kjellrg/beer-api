@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const { refreshHandler, signinHandler, welcomeHandler } = require('../../../sessionhandlers')
+
 var BeerList = require("../../../models/Beers");
 var SourBeerList = require("../../../models/SourBeers")
 
@@ -14,7 +16,7 @@ router.get("/ipa", async (req, res) => {
   }
 });
 
-router.patch("/ipa/tried/:id", async (req, res) => {
+router.patch("/ipa/tried/:id", refreshHandler, async (req, res) => {
   const id = req.params.id;
   try {
     const beer = await BeerList.findOne({ _id: id });
@@ -38,7 +40,7 @@ router.get("/sour", async (req, res) => {
 });
 
 
-router.patch("/sour/tried/:id", async (req, res) => {
+router.patch("/sour/tried/:id", refreshHandler, async (req, res) => {
   const id = req.params.id;
   try {
     const beer = await SourBeerList.findOne({ _id: id });
