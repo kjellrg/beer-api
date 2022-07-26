@@ -68,8 +68,8 @@ const refreshHandler = (req, res, next) => {
 
     if (userSession.isExpired()) {
         delete sessions[sessionToken]
-        return res.status(401).end()
-        
+        res.status(401).end()
+        return
     }
 
     const newSessionToken = uuid.v4()
@@ -81,7 +81,7 @@ const refreshHandler = (req, res, next) => {
     sessions[newSessionToken] = session
     delete sessions[sessionToken]
 
-    res.cookie("session_token", newSessionToken, { expires: expiresAt, signed: true })
+    res.cookie("session_token", newSessionToken, { expires: expiresAt, signed: true})
     next()
 }
 
