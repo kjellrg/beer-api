@@ -36,7 +36,7 @@ const signinHandler = (req, res) => {
     const session = new Session(username, expiresAt)
     sessions[sessionToken] = session
 
-    res.cookie("session_token", sessionToken, { expires: expiresAt, signed: true })
+    res.cookie("session_token", sessionToken,  { expires: expiresAt, signed: true, secure: true, httpOnly: true, sameSite: 'lax'})
     res.end()
 }
 
@@ -81,7 +81,7 @@ const refreshHandler = (req, res, next) => {
     sessions[newSessionToken] = session
     delete sessions[sessionToken]
 
-    res.cookie("session_token", newSessionToken, { expires: expiresAt, signed: true})
+    res.cookie("session_token", newSessionToken, { expires: expiresAt, signed: true, secure: true, httpOnly: true, sameSite: 'lax'})
     next()
 }
 
